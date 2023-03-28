@@ -50,4 +50,6 @@ jobs:
       run: |
         CLUSTER_NAME=$(az aks list --resource-group ${{ secrets.CLUSTER_RESOURCE_GROUP }} --query "[].name" -o tsv)
         ACR_NAME=$(az acr list --resource-group ${{ secrets.CLUSTER_RESOURCE_GROUP }} --query "[].name" -o tsv)
+        az aks update -g ${{ secrets.CLUSTER_RESOURCE_GROUP }} -n $CLUSTER_NAME --enable-managed-identity
+        az aks nodepool upgrade --node-image-only
         az aks update -n $CLUSTER_NAME -g ${{ secrets.CLUSTER_RESOURCE_GROUP }} --attach-acr $ACR_NAME      
